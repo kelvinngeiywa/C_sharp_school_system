@@ -1,6 +1,6 @@
 @rootURL = https://localhost:7220
 @SuperAdminToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3VwZXIuYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIwMWExZWU3Ny0xOTBiLTdhM2UtYTc1Ni02YzdjMTZkOGIxODAiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTdXBlciBBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlNVUEVSX0FETUlOIiwiZXhwIjoxNzk1MDA5NDQ5LCJpc3MiOiJhdXRoZW50aWNhdGlvbiIsImF1ZCI6ImF1dGhlbnRpY2F0ZVVzZXJzIn0.Xc0W5L2Ldp8avDJhaFdbbmefHMOZzZiP-56ibMj-DsgnQYUwXpStCGGbAvfJkNEj0vdYMb-1karZzzQJXAPqKQ
-@AdminToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIwMWExZWVkNi1mNzNmLTdkYzktOGEwMS0yMzZmNzg1MjdjZWIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFETUlOIiwiZXhwIjoxNzk1MDE4OTI4LCJpc3MiOiJhdXRoZW50aWNhdGlvbiIsImF1ZCI6ImF1dGhlbnRpY2F0ZVVzZXJzIn0.Vf7K8PTBmr1tRPwdxUtCyP4uRjwzwImJXeFmBKXuhG2hUVNoTjxODmSy5gPXQVwikOsa-U_bFYFsjSbIfeIN8w
+@AdminToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIwMWExZWVkNi1mNzNmLTdkYzktOGEwMS0yMzZmNzg1MjdjZWIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFETUlOIiwiZXhwIjoxNzk1MDM5MjQ1LCJpc3MiOiJhdXRoZW50aWNhdGlvbiIsImF1ZCI6ImF1dGhlbnRpY2F0ZVVzZXJzIn0.BqyXnld-nMS_5vg8AvGU2x4RlA_POmEjYCPXU2x4vTBOKMMEff48JQUKZekGj2SOT4WX-2NvauaQJ0Q5C7gXVA
 
 GET {{rootURL}}/api/User
 Accept: application/json
@@ -50,4 +50,39 @@ Authorization:Bearer {{AdminToken}}
   "PhoneNumber":"254709876592",
   "DOB":"2001-03-23",
   "Residence":"Eldoret"
+}
+
+###Assign subjects
+###
+POST {{rootURL}}/api/Teacher/01a1ef2c-256b-749b-bc42-0b5c6dc7a1f0/assign-subject
+Content-Type:application/json
+Authorization:Bearer {{AdminToken}}
+
+{
+  "SubjectIds":["01a1efce-9f86-76d1-a083-a4e3adce3ae1",
+  "01a1efd1-5fc9-7d05-9711-7aeae7668dbb"]
+}
+
+###Remove assigned subject
+###
+DELETE {{rootURL}}/api/Teacher/01a1ef2c-256b-749b-bc42-0b5c6dc7a1f0/delete-subject/01a1efce-9f86-76d1-a083-a4e3adce3ae1
+Content-Type:application/json
+Authorization:Bearer {{AdminToken}}
+
+
+
+
+###SUBJECTS
+###
+GET {{rootURL}}/api/Subject
+Accept:application/json
+
+###
+POST {{rootURL}}/api/Subject
+Content-Type:application/json
+Authorization:Bearer {{AdminToken}}
+
+{
+  "SubjectName":"Chemistry",
+  "SubjectCode":"CHEM101"
 }

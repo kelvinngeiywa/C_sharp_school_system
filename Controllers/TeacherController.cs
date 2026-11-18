@@ -38,5 +38,37 @@ namespace school.Controllers
             return Ok(responseDto);
 
         }
+
+        [HttpPost("{teacherId}/assign-subject")]
+        [Authorize(Roles ="ADMIN")]
+        public async Task<ActionResult<ResponseDto>> AssignSubject(Guid teacherId,AssignSubjectDto assignSubject)
+        {
+            var (results,errors) = await teacherService.AssignTeacherSubject(teacherId, assignSubject);
+
+            if (errors is not null)
+            {
+                var errorResponse = new ResponseDto(Success:false,Message:errors,Data:null);
+                return BadRequest(errorResponse);
+            }
+
+            var successResponse = new ResponseDto(Success:true,Message:"Subjects assigned",Data:results);
+            return Ok(successResponse);
+        }
+
+        [HttpDelete("{teacherId}/delete-subject/{subjectId}")]
+        public async Task<ActionResult<ResponseDto>> RemoveSubject(Guid teacherId, Guid subjectId)
+        {
+            var (results,errors) = await teacherService.RemoveSubject(teacherId, subjectId);
+
+            if (errors is not null)
+            {
+                var errorResponse = new ResponseDto(Success: false, Message:errors , Data:null );
+                return BadRequest(errorResponse);
+            }
+
+            var successResponse = new ResponseDto(Success: true, Message: "Subject removed", Data: results);
+            return Ok(successResponse);
+
+        }
     }
 }

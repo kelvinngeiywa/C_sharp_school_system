@@ -6,5 +6,8 @@ namespace school.Services.Iservices
     {
         Task<TeacherResponseDto> AddTeacherAsync(AddTeacherDto addTeacherDto);
         Task<List<TeacherResponseDto>> GetAllTeachersAsync();
+
+        Task<(TeacherSubjectResponseDto? data, string? error)> AssignTeacherSubject(Guid teacherId,AssignSubjectDto assignSubject);
+        Task<(TeacherSubjectResponseDto? response,string? error)> RemoveSubject(Guid teacherId,Guid subjectId);
     }
 }
