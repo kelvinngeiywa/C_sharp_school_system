@@ -8,5 +8,6 @@ namespace school.Models
         public RoleEnum Name { get; set; }
         public string Description { get; set; }
         public DateOnly CreatedDate { get; set; }
+        public ICollection<User> Users { get; set; } = new HashSet<User>();
     }
 }

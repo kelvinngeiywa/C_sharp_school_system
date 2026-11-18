@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using school.bootstrap;
 using school.Data;
 using school.Services;
 using school.Services.Iservices;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +31,22 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 builder.Services.AddScoped<IUser, UserService>();
+builder.Services.AddScoped<IJwt, JwtService>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer=true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidateAudience=true,
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidateLifetime=true,
+        IssuerSigningKey= new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Token"]!)),
+        ValidateActor=true
+
+    };
+});
 
 
 var app = builder.Build();

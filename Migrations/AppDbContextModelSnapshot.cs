@@ -22,6 +22,21 @@ namespace school.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.Property<Guid>("RolesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("RolesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("user_roles", (string)null);
+                });
+
             modelBuilder.Entity("school.Models.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -40,12 +55,7 @@ namespace school.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("roles");
 
@@ -181,11 +191,19 @@ namespace school.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("school.Models.Role", b =>
+            modelBuilder.Entity("RoleUser", b =>
                 {
+                    b.HasOne("school.Models.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("school.Models.User", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId");
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("school.Models.Subject", b =>
@@ -198,11 +216,6 @@ namespace school.Migrations
             modelBuilder.Entity("school.Models.Teacher", b =>
                 {
                     b.Navigation("Subjects");
-                });
-
-            modelBuilder.Entity("school.Models.User", b =>
-                {
-                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }

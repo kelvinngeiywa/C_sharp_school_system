@@ -8,15 +8,15 @@ using school.Services.Iservices;
 
 namespace school.Services
 {
-    public class UserService(AppDbContext _dbContext) : IUser
+    public class UserService(AppDbContext _dbContext, IJwt jwtService) : IUser
     {
         public async Task<UserResponseDto> CreateAdmin(CreateUserDto createUserDto)
         {
             var adminRole = await _dbContext.Set<Role>().FirstOrDefaultAsync(rl => rl.Name == RoleEnum.ADMIN);
-            var emailAndPhoneExists = await _dbContext.users.FirstOrDefaultAsync(user => user.Email == createUserDto.Email && user.PhoneNumber ==
+            var emailAndPhoneExists = await _dbContext.users.AnyAsync(user => user.Email == createUserDto.Email || user.PhoneNumber ==
             createUserDto.PhoneNumber);
 
-            if(adminRole is null || emailAndPhoneExists is not null)
+            if(adminRole is null || emailAndPhoneExists)
             {
                 return null;
             }
@@ -43,8 +43,22 @@ namespace school.Services
                 adminUser.PhoneNumber,
                 adminUser.DOB,
                 adminUser.CreatedDate,
-                new HashSet<Role> { adminRole }
+                adminUser.Roles.Select(r=>new RoleResponseDto(r.Id,r.Name,r.Description,r.CreatedDate)).ToList()
+
+                
             );
+
+        }
+
+        public async Task<List<UserResponseDto>> GetAllAdminUsers()
+        {
+            return await _dbContext.users.Where(role => role.Roles.Any(r => r.Name == RoleEnum.ADMIN)).Select(
+                user => new UserResponseDto(user.Fullname, user.Email, user.PhoneNumber, user.DOB, user.CreatedDate, user.Roles.Select(
+                    rl=>new RoleResponseDto(rl.Id,rl.Name,rl.Description,rl.CreatedDate)).ToList())
+                ).ToListAsync();
+            //var all = await _dbContext.users.Select(u => new { u.Email, Roles = u.Roles.Select(r => r.Name).ToList() }).ToListAsync();
+            //return all;
+
 
         }
 
@@ -52,10 +66,31 @@ namespace school.Services
         {
             return await _dbContext.users.Select(
                 user=>new UserResponseDto(
-                    user.Fullname,user.Email,user.PhoneNumber,user.DOB,user.CreatedDate,user.Roles.ToHashSet()
+                    user.Fullname,user.Email,user.PhoneNumber,user.DOB,user.CreatedDate,user.Roles.Select(rl=>new RoleResponseDto(
+                        rl.Id,rl.Name,rl.Description,rl.CreatedDate)).ToList()
                     )
                 ).ToListAsync();
             
+        }
+
+        public async Task<LoginResponseDTO> LoginUserAsync(LoginDTO loginDTO)
+        {
+            var user = await _dbContext.users.Include(user=>user.Roles).FirstOrDefaultAsync(user => user.Email == loginDTO.Email);
+
+            if(user is null)
+            {
+                return null;
+            }
+
+            var confirmPassword = new PasswordHasher<User>().VerifyHashedPassword(user, user.Password, loginDTO.Password);
+
+            if(confirmPassword == PasswordVerificationResult.Failed)
+            {
+                return null;
+            }
+
+            return new LoginResponseDTO(Token:jwtService.CreateToken(user));
+
         }
     }
 }

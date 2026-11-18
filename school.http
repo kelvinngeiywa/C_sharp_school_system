@@ -1,6 +1,33 @@
 @rootURL = https://localhost:7220
+@SuperAdminToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3VwZXIuYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIwMWExZWU3Ny0xOTBiLTdhM2UtYTc1Ni02YzdjMTZkOGIxODAiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTdXBlciBBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlNVUEVSX0FETUlOIiwiZXhwIjoxNzk1MDA5NDQ5LCJpc3MiOiJhdXRoZW50aWNhdGlvbiIsImF1ZCI6ImF1dGhlbnRpY2F0ZVVzZXJzIn0.Xc0W5L2Ldp8avDJhaFdbbmefHMOZzZiP-56ibMj-DsgnQYUwXpStCGGbAvfJkNEj0vdYMb-1karZzzQJXAPqKQ
 
 GET {{rootURL}}/api/User
 Accept: application/json
+Authorization: Bearer {{SuperAdminToken}}
 
 ###
+GET {{rootURL}}/api/User/admins
+Accept:application/json
+
+###
+
+POST {{rootURL}}/api/User
+Content-Type: application/json
+Authorization: Bearer {{SuperAdminToken}}
+
+{
+  "Fullname":"Admin",
+  "Email":"admin@gmail.com",
+  "PhoneNumber":"254723456798",
+  "Password":"Admin@123",
+  "DOB":"1999-02-13"
+}
+
+###
+POST {{rootURL}}/api/Auth/login
+Content-Type:application/json
+
+{
+  "Email":"super.admin@gmail.com",
+  "Password":"Superadmin@123"
+}

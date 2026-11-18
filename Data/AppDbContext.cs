@@ -10,6 +10,11 @@ namespace school.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Roles)
+                .WithMany(r => r.Users)
+                .UsingEntity(j => j.ToTable("user_roles"));
+
             modelBuilder.Entity<Role>()
                 .Property(r => r.Name)
                 .HasConversion<string>()

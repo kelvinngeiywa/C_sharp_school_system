@@ -8,7 +8,7 @@
         public string PhoneNumber { get; set; }
         public DateOnly DOB { get; set; }
         public string Residence { get; set; }
-        public HashSet<Subject> Subjects { get; set; }
+        public ICollection<Subject> subjects { get; set; }= new HashSet<Subject>();
 
     }
 }
