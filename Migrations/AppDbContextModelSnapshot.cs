@@ -37,6 +37,21 @@ namespace school.Migrations
                     b.ToTable("user_roles", (string)null);
                 });
 
+            modelBuilder.Entity("SubjectTeacher", b =>
+                {
+                    b.Property<Guid>("SubjectsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TeachersId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("SubjectsId", "TeachersId");
+
+                    b.HasIndex("TeachersId");
+
+                    b.ToTable("teacher_subject", (string)null);
+                });
+
             modelBuilder.Entity("school.Models.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -118,12 +133,13 @@ namespace school.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("TeacherId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("TeacherId");
+                    b.HasIndex("SubjectCode")
+                        .IsUnique();
+
+                    b.HasIndex("SubjectName")
+                        .IsUnique();
 
                     b.ToTable("subjects");
                 });
@@ -154,6 +170,12 @@ namespace school.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
 
                     b.ToTable("teachers");
                 });
@@ -206,16 +228,19 @@ namespace school.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("school.Models.Subject", b =>
+            modelBuilder.Entity("SubjectTeacher", b =>
                 {
-                    b.HasOne("school.Models.Teacher", null)
-                        .WithMany("Subjects")
-                        .HasForeignKey("TeacherId");
-                });
+                    b.HasOne("school.Models.Subject", null)
+                        .WithMany()
+                        .HasForeignKey("SubjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("school.Models.Teacher", b =>
-                {
-                    b.Navigation("Subjects");
+                    b.HasOne("school.Models.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeachersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

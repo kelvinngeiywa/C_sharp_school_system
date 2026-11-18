@@ -19,6 +19,15 @@ namespace school.Data
                 .Property(r => r.Name)
                 .HasConversion<string>()
                 .HasMaxLength(50);
+            modelBuilder.Entity<Teacher>()
+                .HasMany(tr => tr.Subjects)
+                .WithMany(sb => sb.Teachers)
+                .UsingEntity(j => j.ToTable("teacher_subject"));
+
+            modelBuilder.Entity<Subject>().HasIndex(sb=> sb.SubjectName).IsUnique();
+            modelBuilder.Entity<Subject>().HasIndex(sb => sb.SubjectCode).IsUnique();
+            modelBuilder.Entity<Teacher>().HasIndex(tr => tr.Email).IsUnique();
+            modelBuilder.Entity<Teacher>().HasIndex(tr => tr.PhoneNumber).IsUnique();
 
 
             var seedDate = new DateOnly(2026, 11, 17);

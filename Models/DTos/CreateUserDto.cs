@@ -1,11 +1,13 @@
-﻿namespace school.Models.DTos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace school.Models.DTos
 {
     public record CreateUserDto(
-        string Fullname,
-        string Email,
-        string PhoneNumber,
-        string Password,
-        DateOnly DOB
+       [Required,StringLength(200)] string Fullname,
+       [Required,EmailAddress,StringLength(200)] string Email,
+        [Required,StringLength(100)] string PhoneNumber,
+       [Required] string Password,
+       [Required] DateOnly DOB
         );
     
     
