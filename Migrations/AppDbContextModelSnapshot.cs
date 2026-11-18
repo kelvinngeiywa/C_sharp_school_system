@@ -52,6 +52,33 @@ namespace school.Migrations
                     b.ToTable("teacher_subject", (string)null);
                 });
 
+            modelBuilder.Entity("school.Models.Guardian", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Residence")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("guardians");
+                });
+
             modelBuilder.Entity("school.Models.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -117,6 +144,59 @@ namespace school.Migrations
                             Description = "Support staff role",
                             Name = "STAFF"
                         });
+                });
+
+            modelBuilder.Entity("school.Models.Student", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Age")
+                        .HasColumnType("integer");
+
+                    b.Property<DateOnly>("DOB")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Fullname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Stream")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("regNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("students");
+                });
+
+            modelBuilder.Entity("school.Models.StudentGuardian", b =>
+                {
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("GuardianId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsPrimaryContact")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Relationship")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("StudentId", "GuardianId");
+
+                    b.HasIndex("GuardianId");
+
+                    b.ToTable("student_guardian", (string)null);
                 });
 
             modelBuilder.Entity("school.Models.Subject", b =>
@@ -241,6 +321,35 @@ namespace school.Migrations
                         .HasForeignKey("TeachersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("school.Models.StudentGuardian", b =>
+                {
+                    b.HasOne("school.Models.Guardian", "guardian")
+                        .WithMany("StudentGuardian")
+                        .HasForeignKey("GuardianId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("school.Models.Student", "student")
+                        .WithMany("StudentGuardian")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("guardian");
+
+                    b.Navigation("student");
+                });
+
+            modelBuilder.Entity("school.Models.Guardian", b =>
+                {
+                    b.Navigation("StudentGuardian");
+                });
+
+            modelBuilder.Entity("school.Models.Student", b =>
+                {
+                    b.Navigation("StudentGuardian");
                 });
 #pragma warning restore 612, 618
         }

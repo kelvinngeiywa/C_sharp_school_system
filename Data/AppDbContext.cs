@@ -29,6 +29,20 @@ namespace school.Data
             modelBuilder.Entity<Teacher>().HasIndex(tr => tr.Email).IsUnique();
             modelBuilder.Entity<Teacher>().HasIndex(tr => tr.PhoneNumber).IsUnique();
 
+            modelBuilder.Entity<StudentGuardian>(e =>
+            {
+                e.ToTable("student_guardian");
+                e.HasKey(sg => new { sg.StudentId,sg.GuardianId });
+
+                e.HasOne(sg => sg.student)
+                .WithMany(s => s.StudentGuardian)
+                .HasForeignKey(sg => sg.StudentId);
+
+                e.HasOne(sg => sg.guardian)
+                .WithMany(g => g.StudentGuardian)
+                .HasForeignKey(sg=>sg.GuardianId);
+            });
+
 
             var seedDate = new DateOnly(2026, 11, 17);
             modelBuilder.Entity<Role>().HasData
@@ -47,6 +61,8 @@ namespace school.Data
         public DbSet<Role> roles { get; set; }
         public DbSet<Teacher> teachers { get; set; }
         public DbSet<Subject> subjects { get; set; }
+        public DbSet<Student> students { get; set; }
+        public DbSet<Guardian> guardians { get; set; }
         
     }
 }
