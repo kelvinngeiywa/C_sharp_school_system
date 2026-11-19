@@ -77,5 +77,26 @@ namespace school.Services
 
             return (response, null);
         }
+
+        public async Task<(StudentGuardianResponseDTO? data, string? error)> GetStudentGuardinDetails(string regNumber)
+        {
+            var results = await _dbContext.students.Where(st=>st.RegNumber == regNumber).Select(
+                sg=> new StudentGuardianResponseDTO(
+                    sg.Fullname,sg.RegNumber,sg.Grade,sg.Stream,sg.DOB,
+                    sg.StudentGuardian.Select(
+                        g=> new GuardianResponseDto(g.guardian.Name,g.guardian.Email,g.guardian.PhoneNumber,g.guardian.Residence,
+                        g.IsPrimaryContact)
+                        ).ToList()
+                    
+                    )
+                ).FirstOrDefaultAsync();
+
+            if (results is null)
+            {
+                return (null, $"Student with Reg number {regNumber} not found");
+            }
+
+            return (results, null);
+        }
     }
 }

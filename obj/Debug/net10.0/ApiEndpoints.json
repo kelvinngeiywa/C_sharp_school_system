@@ -144,6 +144,32 @@
     ]
   },
   {
+    "ContainingType": "school.Controllers.StudentController",
+    "Method": "GetStudentAndParent",
+    "RelativePath": "api/Student/parent/{regNumber}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "regNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "school.Models.DTos.ResponseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "school.Controllers.SubjectController",
     "Method": "GetAllSubjects",
     "RelativePath": "api/Subject",

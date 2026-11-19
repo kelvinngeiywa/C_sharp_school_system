@@ -27,13 +27,16 @@ namespace school.Services
 
             _dbContext.guardians.Add(newGuardian);
             await _dbContext.SaveChangesAsync();
-            var response= new GuardianResponseDto(newGuardian.Name,newGuardian.Email,newGuardian.PhoneNumber, newGuardian.Residence);
+            var response= new GuardianResponseDto(newGuardian.Name,newGuardian.Email,newGuardian.PhoneNumber, newGuardian.Residence,newGuardian.StudentGuardian.
+                Select(pc=>pc.IsPrimaryContact).FirstOrDefault());
             return (response, null);
         }
 
         public async Task<List<GuardianResponseDto>> GetAllGuardians()
         {
-            return await _dbContext.guardians.Select(gd=>new GuardianResponseDto(gd.Name,gd.Email,gd.PhoneNumber,gd.Residence)
+            return await _dbContext.guardians.Select(gd=>new GuardianResponseDto(gd.Name,gd.Email,gd.PhoneNumber,gd.Residence,
+                gd.StudentGuardian.
+                Select(pc => pc.IsPrimaryContact).FirstOrDefault())
                 ).ToListAsync();
         }
     }

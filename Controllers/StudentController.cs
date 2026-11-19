@@ -57,5 +57,21 @@ namespace school.Controllers
             var successResponse = new ResponseDto(true,"",results);
             return Ok(successResponse);
         }
+
+        [HttpGet("parent/{**regNumber}")]
+        [Authorize]
+        public async Task<ActionResult<ResponseDto>> GetStudentAndParent(string regNumber)
+        {
+            var (results, errors) = await studentService.GetStudentGuardinDetails(regNumber);
+
+            if (errors is not null)
+            {
+                var errorResponse = new ResponseDto(false,errors,null);
+                return NotFound(errorResponse);
+            }
+
+            var successResponse = new ResponseDto(true,"",results);
+            return Ok(successResponse);
+        }
     }
 }
