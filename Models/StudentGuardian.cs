@@ -2,7 +2,7 @@
 {
     public class StudentGuardian
     {
-        public Guid StudentId { get; set; }
+        public string StudentRegNumber { get; set; }
         public Student student { get; set; }
         public Guid GuardianId { get; set; }
         public Guardian guardian { get; set; }

@@ -76,6 +76,12 @@ namespace school.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
                     b.ToTable("guardians");
                 });
 
@@ -148,9 +154,9 @@ namespace school.Migrations
 
             modelBuilder.Entity("school.Models.Student", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<string>("RegNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<int>("Age")
                         .HasColumnType("integer");
@@ -165,22 +171,25 @@ namespace school.Migrations
                     b.Property<int>("Grade")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Stream")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("regNumber")
+                    b.Property<string>("Residence")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Stream")
+                        .HasColumnType("integer");
+
+                    b.HasKey("RegNumber");
 
                     b.ToTable("students");
                 });
 
             modelBuilder.Entity("school.Models.StudentGuardian", b =>
                 {
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("StudentRegNumber")
+                        .HasColumnType("character varying(50)");
 
                     b.Property<Guid>("GuardianId")
                         .HasColumnType("uuid");
@@ -192,7 +201,7 @@ namespace school.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("StudentId", "GuardianId");
+                    b.HasKey("StudentRegNumber", "GuardianId");
 
                     b.HasIndex("GuardianId");
 
@@ -333,7 +342,7 @@ namespace school.Migrations
 
                     b.HasOne("school.Models.Student", "student")
                         .WithMany("StudentGuardian")
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("StudentRegNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

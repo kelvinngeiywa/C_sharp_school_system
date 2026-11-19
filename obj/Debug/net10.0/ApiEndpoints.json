@@ -26,6 +26,52 @@
     ]
   },
   {
+    "ContainingType": "school.Controllers.GuardianController",
+    "Method": "AddGuardian",
+    "RelativePath": "api/Guardian",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addGuardian",
+        "Type": "school.Models.DTos.AddGuardianDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "school.Models.DTos.ResponseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "school.Controllers.GuardianController",
+    "Method": "GetAllGuardians",
+    "RelativePath": "api/Guardian",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "school.Models.DTos.ResponseDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "school.Controllers.SubjectController",
     "Method": "GetAllSubjects",
     "RelativePath": "api/Subject",

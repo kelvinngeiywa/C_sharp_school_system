@@ -29,19 +29,28 @@ namespace school.Data
             modelBuilder.Entity<Teacher>().HasIndex(tr => tr.Email).IsUnique();
             modelBuilder.Entity<Teacher>().HasIndex(tr => tr.PhoneNumber).IsUnique();
 
+            modelBuilder.Entity<Student>(student =>
+            {
+                student.HasKey(st => st.RegNumber);
+                student.Property(st=>st.RegNumber).HasMaxLength(50);
+            });
+
             modelBuilder.Entity<StudentGuardian>(e =>
             {
                 e.ToTable("student_guardian");
-                e.HasKey(sg => new { sg.StudentId,sg.GuardianId });
+                e.HasKey(sg => new { sg.StudentRegNumber,sg.GuardianId });
 
                 e.HasOne(sg => sg.student)
                 .WithMany(s => s.StudentGuardian)
-                .HasForeignKey(sg => sg.StudentId);
+                .HasForeignKey(sg => sg.StudentRegNumber);
 
                 e.HasOne(sg => sg.guardian)
                 .WithMany(g => g.StudentGuardian)
                 .HasForeignKey(sg=>sg.GuardianId);
             });
+
+            modelBuilder.Entity<Guardian>().HasIndex(gd => gd.Email).IsUnique();
+            modelBuilder.Entity<Guardian>().HasIndex(gd => gd.PhoneNumber).IsUnique();
 
 
             var seedDate = new DateOnly(2026, 11, 17);

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using school.Data;
+using school.Models;
 using school.Models.DTos;
 using school.Services.Iservices;
 
@@ -9,18 +10,31 @@ namespace school.Services
     {
         public async Task<(GuardianResponseDto? data, string? errors)> AddGuardianAsync(AddGuardianDto addGuardianDto)
         {
-            var guardianExists = await _dbContext.guardians.FirstOrDefaultAsync(g=>g.Email == addGuardianDto.PhoneNumber || 
+            var guardianExists = await _dbContext.guardians.AnyAsync(g=>g.Email == addGuardianDto.PhoneNumber ||
             g.PhoneNumber == addGuardianDto.PhoneNumber);
 
-            if(guardianExists is not null)
+            if(guardianExists)
             {
-                return (null, $"Guardian with email {addGuardianDto.Email} and phone number {addGuardianDto.PhoneNumber} exists");
+                return (null, $"Guardian with email {addGuardianDto.Email} or phone number {addGuardianDto.PhoneNumber} exists");
             }
+            var newGuardian = new Guardian
+            {
+                Name=addGuardianDto.Name,
+                Email=addGuardianDto.Email,
+                PhoneNumber=addGuardianDto.PhoneNumber,
+                Residence=addGuardianDto.Residence
+            };
+
+            _dbContext.guardians.Add(newGuardian);
+            await _dbContext.SaveChangesAsync();
+            var response= new GuardianResponseDto(newGuardian.Name,newGuardian.Email,newGuardian.PhoneNumber, newGuardian.Residence);
+            return (response, null);
         }
 
-        public Task<List<GuardianResponseDto>> GetAllGuardians()
+        public async Task<List<GuardianResponseDto>> GetAllGuardians()
         {
-            throw new NotImplementedException();
+            return await _dbContext.guardians.Select(gd=>new GuardianResponseDto(gd.Name,gd.Email,gd.PhoneNumber,gd.Residence)
+                ).ToListAsync();
         }
     }
 }
