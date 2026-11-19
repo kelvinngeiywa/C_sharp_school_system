@@ -135,6 +135,121 @@
         }
       }
     },
+    "/api/Student": {
+      "post": {
+        "tags": [
+          "Student"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddStudentDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddStudentDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddStudentDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Student"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Student/{regNumber}": {
+      "get": {
+        "tags": [
+          "Student"
+        ],
+        "parameters": [
+          {
+            "name": "regNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Subject": {
       "get": {
         "tags": [
@@ -527,6 +642,48 @@
           }
         }
       },
+      "AddStudentDTO": {
+        "required": [
+          "fullname",
+          "regNumber",
+          "grade",
+          "stream",
+          "guardianId",
+          "dob",
+          "residence"
+        ],
+        "type": "object",
+        "properties": {
+          "fullname": {
+            "type": "string"
+          },
+          "regNumber": {
+            "type": "string"
+          },
+          "grade": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "stream": {
+            "$ref": "#/components/schemas/StreamEnum"
+          },
+          "guardianId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "dob": {
+            "type": "string",
+            "format": "date"
+          },
+          "residence": {
+            "type": "string"
+          }
+        }
+      },
       "AddSubjectDto": {
         "required": [
           "subjectName",
@@ -644,6 +801,15 @@
           },
           "data": { }
         }
+      },
+      "StreamEnum": {
+        "enum": [
+          "LION",
+          "BUFFALO",
+          "ELEPHANT",
+          "RHINO",
+          "GIRAFFE"
+        ]
       }
     }
   },
@@ -653,6 +819,9 @@
     },
     {
       "name": "Guardian"
+    },
+    {
+      "name": "Student"
     },
     {
       "name": "Subject"

@@ -10,12 +10,6 @@ namespace school.Services
     {
         public async Task<(StudentResponseDTo? data, string? errors)> AddStudentAsync(AddStudentDTO addStudent)
         {
-            var studentExists = await _dbContext.students.AnyAsync(st => st.RegNumber == addStudent.RegNumber);
-            if (studentExists)
-            {
-                return (null, $"Student with Reg Number {addStudent.RegNumber}");
-            }
-
             var guardianExists = await _dbContext.guardians.FindAsync(addStudent.GuardianId);
 
             if (guardianExists is null)
@@ -23,6 +17,11 @@ namespace school.Services
                 return (null, "Guardian not found");
             }
 
+            var studentExists = await _dbContext.students.AnyAsync(st => st.RegNumber == addStudent.RegNumber);
+            if (studentExists)
+            {
+                return (null, $"Student with Reg Number {addStudent.RegNumber}");
+            }
 
             var newStudent = new Student
             {
@@ -67,7 +66,7 @@ namespace school.Services
 
         public async Task<(StudentResponseDTo? data, string? errors)> GetStudentByRegNumber(string regNumber)
         {
-            var student = await _dbContext.students.FindAsync(regNumber);
+            var student = await _dbContext.students.FirstOrDefaultAsync(st=>st.RegNumber == regNumber);
 
             if( student is null)
             {

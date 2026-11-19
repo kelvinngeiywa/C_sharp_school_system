@@ -4,7 +4,7 @@ namespace school.Models
 {
     public class Student
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string RegNumber { get; set; }
         public string Fullname { get; set; }
         public int Grade { get; set; }

@@ -1,6 +1,6 @@
 @rootURL = https://localhost:7220
 @SuperAdminToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3VwZXIuYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIwMWExZWU3Ny0xOTBiLTdhM2UtYTc1Ni02YzdjMTZkOGIxODAiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJTdXBlciBBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlNVUEVSX0FETUlOIiwiZXhwIjoxNzk1MDA5NDQ5LCJpc3MiOiJhdXRoZW50aWNhdGlvbiIsImF1ZCI6ImF1dGhlbnRpY2F0ZVVzZXJzIn0.Xc0W5L2Ldp8avDJhaFdbbmefHMOZzZiP-56ibMj-DsgnQYUwXpStCGGbAvfJkNEj0vdYMb-1karZzzQJXAPqKQ
-@AdminToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIwMWExZWVkNi1mNzNmLTdkYzktOGEwMS0yMzZmNzg1MjdjZWIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFETUlOIiwiZXhwIjoxNzk1MDgxOTc4LCJpc3MiOiJhdXRoZW50aWNhdGlvbiIsImF1ZCI6ImF1dGhlbnRpY2F0ZVVzZXJzIn0.peMaMrgy-LwW7Q-G733DPXTjJZT5olR-LD-nS956Vqs0D6CJ2SVpava_dgGMZ4g15qU7OEToKxVHq9ayNIkefw
+@AdminToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIwMWExZWVkNi1mNzNmLTdkYzktOGEwMS0yMzZmNzg1MjdjZWIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJBZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFETUlOIiwiZXhwIjoxNzk1MDk0MTY3LCJpc3MiOiJhdXRoZW50aWNhdGlvbiIsImF1ZCI6ImF1dGhlbnRpY2F0ZVVzZXJzIn0.cDYIRA3ZB0SiAGJ7MDBP8aXhNC6_0L337NrR76xA1S9QVebtJm0dJqwDGBTa4ko8rK4LamZF-t8odSi3pGvXUw
 
 GET {{rootURL}}/api/User
 Accept: application/json
@@ -104,4 +104,32 @@ Authorization: Bearer {{AdminToken}}
   "PhoneNumber":"+254721505639",
   "Residence":"Eldoret"
 }
+
+###STUDENT REQUESTS
+###
+
+GET {{rootURL}}/api/Student
+Accept:application/json
+Authorization:Bearer {{AdminToken}}
+
+###
+POST {{rootURL}}/api/Student
+Content-Type:application/json
+Authorization: Bearer {{AdminToken}}
+
+{
+  "Fullname":"Kimutai",
+  "RegNumber":"2026/005/GR",
+  "Grade":4,
+  "Stream":"Giraffe",
+  "GuardianId":"01a1f2e9-d751-7d7b-808b-02299ccf2683",
+  "DOB":"2018-08-22",
+  "Residence":"Eldoret"
+
+}
+
+###
+GET {{rootURL}}/api/Student/2026/002/RH
+Accept:application/json
+Authorization:Bearer {{AdminToken}}
 

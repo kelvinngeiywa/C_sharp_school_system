@@ -35,6 +35,17 @@ namespace school.Data
                 student.Property(st=>st.RegNumber).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<Student>().HasIndex(s => s.Id).IsUnique();
+
+            modelBuilder.Entity<Student>()
+                .Property(s => s.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Student>()
+                .Property(s => s.Stream)
+                .HasConversion<string>()
+                .HasMaxLength(20);
+
             modelBuilder.Entity<StudentGuardian>(e =>
             {
                 e.ToTable("student_guardian");

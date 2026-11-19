@@ -172,16 +172,22 @@ namespace school.Migrations
                         .HasColumnType("integer");
 
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Residence")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Stream")
-                        .HasColumnType("integer");
+                    b.Property<string>("Stream")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.HasKey("RegNumber");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.ToTable("students");
                 });
