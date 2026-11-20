@@ -8,5 +8,6 @@ namespace school.Services.Iservices
         Task<List<UserResponseDto>> GetAllAdminUsers();
         Task<List<UserResponseDto>> getAllUserAsync();
         Task<LoginResponseDTO> LoginUserAsync(LoginDTO loginDTO);
+        Task<(UserResponseDto? data, string? errors)> CreateUserCredentials(CreateUserCredentialsDTO userCredentialsDTO);
     }
 }

@@ -6,5 +6,6 @@ namespace school.Services.Iservices
     {
         Task<(GuardianResponseDto? data,string? errors)> AddGuardianAsync(AddGuardianDto addGuardianDto);
         Task<List<GuardianResponseDto>> GetAllGuardians();
+        Task<(GuardianResponseDto? data, string? errors)> AddExtraGuardian(string RegNumber,AddGuardianDto addGuardian);
     }
 }

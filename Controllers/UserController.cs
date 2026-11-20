@@ -33,6 +33,23 @@ namespace school.Controllers
             return Ok(responseDto);
         }
 
+        [HttpPost("create-account")]
+        [Authorize(Roles ="ADMIN")]
+        public async Task<ActionResult<ResponseDto>> CreateUserAccount(CreateUserCredentialsDTO createUserCredentials)
+        {
+            var (results, errors) = await userServices.CreateUserCredentials(createUserCredentials);
+
+            if(errors is not null)
+            {
+                var errorResponse = new ResponseDto(Success:false,Message:errors,Data:null);
+                return BadRequest(errorResponse);
+            }
+
+            var successResponse = new ResponseDto(Success:true,Message:"",Data:results);
+            return Ok(successResponse);
+
+        }
+
         [HttpPost]
         [Authorize(Roles ="SUPER_ADMIN")]
         public async Task<ActionResult<ResponseDto>> CreateAdmin(CreateUserDto createAdminDto)

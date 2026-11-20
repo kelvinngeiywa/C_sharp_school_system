@@ -26,6 +26,22 @@ namespace school.Controllers
             return Ok(successResponse);
         }
 
+        [HttpPost("add-guardian/{**regNumber}")]
+        [Authorize(Roles ="ADMIN")]
+        public async Task<ActionResult<ResponseDto>> AddExtraGuardian(string regNumber,AddGuardianDto addGuardian)
+        {
+            var (results, errors) = await guardianServices.AddExtraGuardian(regNumber, addGuardian);
+
+            if(errors is not null)
+            {
+                var errorResponse = new ResponseDto(Success:false,Message:errors,Data:null);
+                return BadRequest(errorResponse);
+            }
+
+            var successResponse = new ResponseDto(Success:true,Message:"",Data:results);
+            return Ok(successResponse);
+        }
+
         [HttpGet]
         [Authorize(Roles ="ADMIN")]
         public async Task<ActionResult<ResponseDto>> GetAllGuardians()

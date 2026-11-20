@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using school.Models.DTos;
 using school.Services.Iservices;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace school.Controllers
 {
@@ -11,6 +12,7 @@ namespace school.Controllers
     public class SubjectController(ISubject subjectService) : ControllerBase
     {
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<ResponseDto>> GetAllSubjects()
         {
             var results = await subjectService.GetAllSubjects();
@@ -38,6 +40,54 @@ namespace school.Controllers
 
             var successResponse = new ResponseDto(Success:true,Message:"Subject added",Data:results);
             return Ok(successResponse);
+        }
+
+        [HttpGet("{subjectCode}")]
+        [Authorize]
+        public async Task<ActionResult<ResponseDto>> GetSubjectByCode(string subjectCode)
+        {
+            var (data, errors) = await subjectService.GetSubjectBySubjectCode(subjectCode);
+            if(errors is not null)
+            {
+                var errorResponse = new ResponseDto(Success:false,Message:errors,Data:null);
+                return NotFound(errorResponse);
+            }
+
+            var successResponse = new ResponseDto(Success:true,Message:"",Data:data);
+            return Ok(successResponse);
+        }
+
+        [HttpPut("{subjectCode}")]
+        [Authorize(Roles ="ADMIN")]
+        public async Task<ActionResult<ResponseDto>> UpdateSubject(string subjectCode,AddSubjectDto addSubject)
+        {
+            var (results, errors) = await subjectService.UpdateSubject(subjectCode, addSubject);
+
+            if (errors is not null)
+            {
+                var errorResponse = new ResponseDto(Success: false, Message: errors, Data: null);
+                return NotFound(errorResponse);
+            }
+            var successResponse = new ResponseDto(Success: true, Message: "Subject updated successfully!!", Data: results);
+            return Ok(successResponse);
+
+        }
+
+        [HttpDelete("{subjectCode}")]
+        [Authorize(Roles ="ADMIN")]
+        public async Task<ActionResult<ResponseDto>> DeleteSubject(string subjectCode)
+        {
+            var (success, errors) = await subjectService.DeleteSubject(subjectCode);
+
+            if (errors is not null)
+            {
+                var errorResponse = new ResponseDto(Success: false, Message: errors, Data: null);
+                return NotFound(errorResponse);
+            }
+
+            var successResponse = new ResponseDto(Success:true,Message:success,Data: success);
+            return Ok(successResponse);
+
         }
     }
 }
